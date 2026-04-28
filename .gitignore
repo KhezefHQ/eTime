@@ -1,0 +1,4 @@
+temporary screenshots/
+*.mov
+*.MOV
+node_modules/

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repairs - eTime</title>
+  <meta name="description" content="Expert watch repairs, jewellery repairs, and antique watch restoration in Wynberg, Cape Town. Batteries, straps, ring resizing, soldering, antique movements and more. Shop 2B, Maynard Mall." />
+  <link rel="icon" type="image/png" href="brand_asset/e_Time_E transparent.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #1A3A8F;
+      --blue-dark: #0F2660;
+      --blue-light: #EEF2FB;
+      --yellow: #E8FF3D;
+      --yellow-dark: #C8DD00;
+      --text: #1A1A2E;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; color: var(--text); background: #fff; overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; letter-spacing: -0.02em; }
+
+    .spot-bar {
+      background: var(--blue-dark); padding: 7px 32px;
+      display: flex; align-items: center; justify-content: flex-end; gap: 28px;
+      font-size: 12px; color: rgba(255,255,255,0.75);
+    }
+    .announcement-bar {
+      background: var(--blue); color: #fff; text-align: center;
+      padding: 10px 16px; font-size: 13px; letter-spacing: 0.06em;
+      text-transform: uppercase; font-weight: 500;
+    }
+    .announcement-bar a { color: var(--yellow); text-decoration: none; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100; background: #fff;
+      border-bottom: 1px solid rgba(26,58,143,0.1);
+      box-shadow: 0 2px 12px rgba(26,58,143,0.07);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 58px;
+    }
+    .nav-logo img { height: 52px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text);
+      font-size: 13px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); border-bottom-color: var(--yellow); }
+    .nav-links a.active { color: var(--blue); border-bottom-color: var(--yellow); font-weight: 600; }
+    .nav-wa {
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none; color: var(--text);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-wa:hover { color: var(--blue); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, var(--blue-dark) 100%);
+      padding: 80px 32px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(232,255,61,0.06) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--yellow); font-weight: 600; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: inline-block; width: 32px; height: 2px;
+      background: var(--yellow); border-radius: 2px;
+    }
+    .hero h1 {
+      font-size: 52px; font-weight: 800; color: #fff;
+      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--yellow); }
+    .hero p {
+      font-size: 17px; color: rgba(255,255,255,0.75);
+      line-height: 1.7; max-width: 600px; margin: 0 auto;
+    }
+
+    /* Repair Section */
+    .repair-section { padding: 96px 32px; }
+    .repair-section:nth-child(even) { background: var(--blue-light); }
+    .repair-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .repair-inner.reverse { }
+
+    .repair-img-wrap {
+      position: relative; border-radius: 12px; overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: 0 24px 64px rgba(15,38,96,0.18), 0 4px 16px rgba(15,38,96,0.1);
+    }
+    .repair-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .repair-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,38,96,0.35) 0%, transparent 60%);
+    }
+    .repair-img-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: var(--yellow); color: var(--blue-dark);
+      font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 4px;
+    }
+
+    .repair-content .eyebrow {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 12px;
+    }
+    .repair-content h2 {
+      font-size: 38px; font-weight: 700; color: var(--blue-dark);
+      line-height: 1.15; margin-bottom: 20px;
+    }
+    .repair-content h2 span { color: var(--blue); }
+    .repair-content .body {
+      font-size: 15px; color: #4a4a6a; line-height: 1.8; margin-bottom: 28px;
+    }
+
+    .feature-list { list-style: none; margin-bottom: 36px; display: flex; flex-direction: column; gap: 12px; }
+    .feature-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; color: #3a3a5c; line-height: 1.5;
+    }
+    .feature-list li::before {
+      content: '';
+      display: inline-block; width: 20px; height: 20px; flex-shrink: 0;
+      background: var(--blue-light); border: 2px solid rgba(26,58,143,0.2); border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231A3A8F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: center; background-size: 10px;
+      margin-top: 2px;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--yellow); color: var(--blue-dark);
+      font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 16px 36px; border-radius: 4px; text-decoration: none;
+      border: 2px solid var(--yellow);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--yellow-dark); border-color: var(--yellow-dark); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+    .btn-blue {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--blue); color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 16px 36px; border-radius: 4px; text-decoration: none;
+      border: 2px solid var(--blue); transition: background 0.2s, transform 0.15s;
+    }
+    .btn-blue:hover { background: var(--blue-dark); border-color: var(--blue-dark); transform: translateY(-1px); }
+    .btn-blue:active { transform: translateY(0); }
+    .btn-blue:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+    /* CTA banner */
+    .cta-section {
+      background: var(--blue-dark); padding: 72px 32px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 110%, rgba(232,255,61,0.07) 0%, transparent 70%);
+    }
+    .cta-section h2 { font-size: 36px; font-weight: 700; color: #fff; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .cta-section p { color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.7; max-width: 540px; margin: 0 auto 36px; }
+
+    /* Footer */
+    footer { background: var(--blue-dark); padding: 64px 32px 32px; color: rgba(255,255,255,0.7); }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px;
+    }
+    .footer-brand img { height: 80px; margin-bottom: 20px; }
+    .footer-brand p { font-size: 14px; line-height: 1.75; margin-bottom: 24px; }
+    .footer-social { display: flex; gap: 12px; }
+    .social-btn {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: #fff;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .social-btn:hover { background: var(--yellow); border-color: var(--yellow); color: var(--blue-dark); }
+    .footer-col h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: #fff; margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--yellow); }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; margin-bottom: 14px; line-height: 1.5; }
+    .footer-contact-item svg { color: var(--yellow); flex-shrink: 0; margin-top: 2px; width: 16px; height: 16px; }
+    .footer-contact-item a { color: rgba(255,255,255,0.65); text-decoration: none; }
+    .footer-contact-item a:hover { color: var(--yellow); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.4); flex-wrap: wrap; gap: 12px; }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--yellow); }
+
+    /* WhatsApp FAB */
+    #wa-fab {
+      position: fixed; bottom: 24px; right: 24px; z-index: 300;
+      width: 56px; height: 56px; border-radius: 50%; background: #25D366;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: #fff;
+      transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+    }
+    #wa-fab:hover { transform: scale(1.12); box-shadow: 0 8px 28px rgba(37,211,102,0.55); }
+
+    @media (max-width: 1024px) {
+      .repair-inner { grid-template-columns: 1fr; gap: 48px; }
+      .repair-inner.reverse .repair-img-wrap { order: -1; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .repair-section { padding: 64px 20px; }
+      .repair-content h2 { font-size: 28px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .cta-section h2 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Spot Prices Bar -->
+  <div class="spot-bar">
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#E8FF3D;flex-shrink:0;"></span>
+      <span style="color:rgba(255,255,255,0.45);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;">Gold / oz</span>
+      <strong id="gold-price" style="color:#fff;font-weight:600;"></strong>
+    </div>
+    <div style="width:1px;height:14px;background:rgba(255,255,255,0.15);"></div>
+    <div style="display:flex;align-items:center;gap:7px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#c0c0c0;flex-shrink:0;"></span>
+      <span style="color:rgba(255,255,255,0.45);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;">Silver / oz</span>
+      <strong id="silver-price" style="color:#fff;font-weight:600;"></strong>
+    </div>
+    <div style="width:1px;height:14px;background:rgba(255,255,255,0.15);"></div>
+    <span style="color:rgba(255,255,255,0.45);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;">Live market prices</span>
+  </div>
+
+  <!-- Announcement Bar -->
+
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="brand_asset/e_Time_E transparent.png" alt="eTime Watch &amp; Jewellery" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="repairs.html" class="active">Repairs</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:20px;">
+        <a href="https://wa.me/27660453163" target="_blank" class="nav-wa" aria-label="WhatsApp Us">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          WhatsApp
+        </a>
+        <button class="hamburger" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <p class="hero-eyebrow">Expert Craftsmanship</p>
+    <h1>Repairs &amp; <span>Restoration</span></h1>
+    <p>From a simple battery to a full antique movement overhaul, we handle every repair with the same care and skill that has kept our customers coming back for 26 years.</p>
+  </section>
+
+  <!-- ── Section 1: Watch Repairs ── -->
+  <section class="repair-section">
+    <div class="repair-inner">
+      <div class="repair-img-wrap">
+        <img src="Chains/10(3).png" alt="Watch repair specialist Cape Town, eTime Wynberg" />
+        <div class="repair-img-overlay"></div>
+        <span class="repair-img-badge">Walk-ins Welcome</span>
+      </div>
+      <div class="repair-content">
+        <p class="eyebrow">Watch Repairs</p>
+        <h2>Batteries, Straps<br />&amp; <span>Full Servicing</span></h2>
+        <p class="body">
+          Whether your watch has stopped, needs a new strap, or requires a full service, we have the tools and the expertise to get it right. We work on all makes and models, from everyday fashion watches to precision Swiss timepieces.
+        </p>
+        <p class="body">
+          We carry a wide selection of watch batteries and straps in-store. If we don't have the exact part or strap you need, we'll order it for you, as we want your watch back on your wrist as quickly as possible.
+        </p>
+        <ul class="feature-list">
+          <li>Watch battery replacements for all sizes and brands</li>
+          <li>Strap and bracelet changes: leather, metal, and rubber</li>
+          <li>Crystal (glass) replacement</li>
+          <li>Full watch servicing &amp; movement cleaning</li>
+          <li>Can't find the part? We'll order it for you</li>
+        </ul>
+        <a href="https://wa.me/27660453163?text=Hi%20eTime!%20I%20need%20a%20watch%20repair." target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          Enquire on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2: Jewellery Repairs ── -->
+  <section class="repair-section">
+    <div class="repair-inner reverse">
+      <div class="repair-content">
+        <p class="eyebrow">Jewellery Repairs</p>
+        <h2>Restore Your<br /><span>Treasured Pieces</span></h2>
+        <p class="body">
+          A broken clasp, a loose stone, a ring that no longer fits; these things happen. Our skilled craftspeople repair jewellery of all kinds, from everyday silver pieces to precious gold heirlooms. We treat every item with the care it deserves.
+        </p>
+        <p class="body">
+          Bring us your worn or damaged jewellery and we'll assess the repair honestly and give you a fair quote. Most repairs are completed in the workshop with quick turnaround times, depending on the complexity, but we will communicate that to our customers.
+        </p>
+        <ul class="feature-list">
+          <li>Ring resizing, made larger or smaller</li>
+          <li>Chain repairs and soldering</li>
+          <li>Clasp replacements</li>
+          <li>Stone re-setting &amp; tightening</li>
+          <li>General polishing &amp; restoration</li>
+          <li>Silver &amp; gold jewellery repairs</li>
+        </ul>
+        <a href="https://wa.me/27660453163?text=Hi%20eTime!%20I%20need%20a%20jewellery%20repair." target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          Enquire on WhatsApp
+        </a>
+      </div>
+      <div class="repair-img-wrap">
+        <img src="Chains/Beige Blau Mit Foto Musik Blaue Gefühle Virtueller Hintergrund (1).png" alt="Jewellery repair soldering Cape Town, eTime" />
+        <div class="repair-img-overlay"></div>
+        <span class="repair-img-badge">Workshop Service</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 3: Antique Watch Repairs + Buy & Sell ── -->
+  <section class="repair-section">
+    <div class="repair-inner">
+      <div class="repair-img-wrap">
+        <img src="Chains/9(3).png" alt="Antique watch repairs and restoration Cape Town, eTime" />
+        <div class="repair-img-overlay"></div>
+        <span class="repair-img-badge">Buying &amp; Selling</span>
+      </div>
+      <div class="repair-content">
+        <p class="eyebrow">Antique Watches</p>
+        <h2>Restoration, Buying<br />&amp; <span>Selling</span></h2>
+        <p class="body">
+          Antique and vintage timepieces are our passion. Whether you have a precious heirloom that has stopped running, or you're looking to buy or sell a classic timepiece, our specialists have the knowledge and experience to help.
+        </p>
+        <p class="body">
+          We service and restore antique movements with the same care the original watchmakers intended. We also buy interesting antique watches at fair prices.
+        </p>
+        <ul class="feature-list">
+          <li>Antique movement servicing &amp; cleaning</li>
+          <li>Pocket watch repairs &amp; restoration</li>
+          <li>Vintage wristwatch overhauls</li>
+          <li>We buy antique watches at fair market prices</li>
+          <li>Antique and vintage watches for sale</li>
+          <li>Advice &amp; valuation on old timepieces</li>
+        </ul>
+        <a href="https://wa.me/27660453163?text=Hi%20eTime!%20I%20have%20an%20antique%20watch%20I%27d%20like%20to%20discuss." target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          Enquire on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div style="position:relative;z-index:1;max-width:1280px;margin:0 auto;">
+      <h2>Not sure what you need?</h2>
+      <p>Just bring your watch or jewellery in-store at Shop 2B, Maynard Mall, Wynberg, or WhatsApp us a photo and we'll let you know what we can do and what it'll cost. No obligation.</p>
+      <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+        <a href="https://wa.me/27660453163?text=Hi%20eTime!%20I%20need%20a%20repair%20and%20have%20a%20few%20questions." target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          WhatsApp Us
+        </a>
+        <a href="contact.html" class="btn-blue" style="border-color:#fff;">
+          Contact Us
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="brand_asset/Small_black_logo white transparent.png" alt="eTime Watch &amp; Jewellery" />
+          <p>Wynberg's trusted Watch &amp; Jewellery specialists. Family-owned, proudly South African, committed to quality since 2000.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://wa.me/27660453163" target="_blank" class="social-btn" aria-label="WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="repairs.html">Watch Repairs</a></li>
+            <li><a href="repairs.html">Watch Batteries</a></li>
+            <li><a href="repairs.html">Jewellery Repairs</a></li>
+            <li><a href="index.html#custom">Custom Jewellery</a></li>
+            <li><a href="repairs.html">Buy &amp; Sell Antique Watches</a></li>
+            <li><a href="repairs.html">Antique Watch Repairs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Information</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact Us</h5>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Shop 2B, Maynard Mall,<br />Wynberg, Cape Town
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.39 2 2 0 0 1 3.59 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6 6l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+            <a href="tel:+27660453163">+27 66 045 3163</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:hello@etimejewellers.co.za">hello@etimejewellers.co.za</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Mon – Fri: 9am – 6pm<br />Sat: 9am – 5pm<br />1st &amp; Last Sunday of the Month: Open<br />Public Holidays: Open</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 eTime Watch &amp; Jewellery. All rights reserved.</p>
+        <p>Shop 2B, Maynard Mall, Wynberg, Cape Town</p>
+      </div>
+    </div>
+  </footer>
+
+  <a id="wa-fab" href="https://wa.me/27660453163" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+  </a>
+
+  <script>
+    async function fetchSpotPrices() {
+      try {
+        const [goldRes, silverRes] = await Promise.all([
+          fetch('https://api.coinbase.com/v2/prices/XAU-USD/spot'),
+          fetch('https://api.coinbase.com/v2/prices/XAG-USD/spot')
+        ]);
+        if (!goldRes.ok || !silverRes.ok) throw new Error();
+        const goldData = await goldRes.json();
+        const silverData = await silverRes.json();
+        document.getElementById('gold-price').textContent = '$' + parseFloat(goldData.data.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+        document.getElementById('silver-price').textContent = '$' + parseFloat(silverData.data.amount).toFixed(2) + ' USD';
+      } catch(e) {
+        document.getElementById('gold-price').textContent = 'Price on request';
+        document.getElementById('silver-price').textContent = 'Price on request';
+      }
+    }
+    fetchSpotPrices();
+  </script>
+
+</body>
+</html>
