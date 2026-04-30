@@ -21,7 +21,25 @@
   <style>
     *, *::before, *::after { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
     :root { --blue: #1A3A8F; --blue-dark: #0F2660; --yellow: #E8FF3D; }
-    #price-bar { background: #0F2660; color: #fff; font-size: 12px; padding: 7px 0; }
+    .spot-bar {
+      background: #0F2660;
+      padding: 7px 32px;
+      display: flex; align-items: center; justify-content: flex-end; gap: 28px;
+      font-size: 12px; color: rgba(255,255,255,0.75);
+      flex-wrap: nowrap;
+    }
+    @media (max-width: 640px) {
+      .spot-bar { padding: 7px 12px; gap: 12px; justify-content: center; }
+    }
+    .spot-item { display: flex; align-items: center; gap: 7px; }
+    .spot-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .spot-dot.gold { background: #E8FF3D; }
+    .spot-dot.silver { background: #c0c0c0; }
+    .spot-item strong { color: #fff; font-weight: 600; }
+    .spot-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .spot-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.15); }
+    .spot-live-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    @media (max-width: 768px) { .spot-live-label { display: none; } }
     #main-nav { position: sticky; top: 0; z-index: 200; background: #fff; box-shadow: 0 2px 12px rgba(26,58,143,0.10); }
     #main-nav .nav-link { text-decoration: none; color: #4b5563; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 0; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
     #main-nav .nav-link:hover { color: #1A3A8F; border-bottom-color: #E8FF3D; }
@@ -107,17 +125,19 @@
 </head>
 <body class="bg-gray-50">
 
-  <!-- PRICE BAR -->
-  <div id="price-bar">
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4 flex-wrap">
-      <span class="opacity-60 text-xs hidden sm:inline">Live Spot Prices (USD / troy oz)</span>
-      <div class="flex items-center gap-5 flex-wrap">
-        <span id="gold-price" class="font-medium">🥇 Gold: <span class="opacity-60">Loading…</span></span>
-        <span class="opacity-30">|</span>
-        <span id="silver-price" class="font-medium">🥈 Silver: <span class="opacity-60">Loading…</span></span>
-        <span class="opacity-30 hidden sm:inline">|</span>
-        <a href="tel:+27660453163" class="opacity-70 hover:opacity-100 transition-opacity hidden sm:inline" style="color:#fff;text-decoration:none;">📞 +27 66 045 3163</a>
-      </div>
+  <!-- Live Spot Prices Bar -->
+  <div class="spot-bar">
+    <span class="spot-live-label">Live Market Price</span>
+    <div class="spot-item">
+      <span class="spot-dot gold"></span>
+      <span class="spot-label">Gold / oz</span>
+      <strong id="gold-price"></strong>
+    </div>
+    <div class="spot-divider"></div>
+    <div class="spot-item">
+      <span class="spot-dot silver"></span>
+      <span class="spot-label">Silver / oz</span>
+      <strong id="silver-price"></strong>
     </div>
   </div>
 
@@ -384,23 +404,27 @@
       iconClose.style.display = isOpen ? 'block' : 'none';
     });
 
-    async function updatePrices() {
+    async function fetchSpotPrices() {
       try {
-        const res = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
-        const data = await res.json();
-        const item = data.items[0];
-        const fmt = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const pct = (n) => (n >= 0 ? '▲ +' : '▼ ') + Math.abs(n).toFixed(2) + '%';
-        const col = (n) => n >= 0 ? '#4ade80' : '#f87171';
-        document.getElementById('gold-price').innerHTML   = `🥇 Gold: <strong>${fmt(item.xauPrice)}</strong> <span style="color:${col(item.pcXau)};font-size:11px;">${pct(item.pcXau)}</span>`;
-        document.getElementById('silver-price').innerHTML = `🥈 Silver: <strong>${fmt(item.xagPrice)}</strong> <span style="color:${col(item.pcXag)};font-size:11px;">${pct(item.pcXag)}</span>`;
+        const [goldRes, silverRes] = await Promise.all([
+          fetch('https://api.coinbase.com/v2/prices/XAU-USD/spot'),
+          fetch('https://api.coinbase.com/v2/prices/XAG-USD/spot')
+        ]);
+        if (!goldRes.ok || !silverRes.ok) throw new Error('API error');
+        const goldData = await goldRes.json();
+        const silverData = await silverRes.json();
+        const goldUSD = parseFloat(goldData.data.amount);
+        const silverUSD = parseFloat(silverData.data.amount);
+        document.getElementById('gold-price').textContent =
+          '$' + goldUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+        document.getElementById('silver-price').textContent =
+          '$' + silverUSD.toFixed(2) + ' USD';
       } catch (e) {
-        document.getElementById('gold-price').innerHTML   = '🥇 Gold: <span style="opacity:0.6;">Live price</span>';
-        document.getElementById('silver-price').innerHTML = '🥈 Silver: <span style="opacity:0.6;">Live price</span>';
+        document.getElementById('gold-price').textContent = 'Price on request';
+        document.getElementById('silver-price').textContent = 'Price on request';
       }
     }
-    updatePrices();
-    setInterval(updatePrices, 60000);
+    fetchSpotPrices();
   </script>
 </body>
 </html>
