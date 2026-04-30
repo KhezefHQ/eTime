@@ -52,6 +52,8 @@
     .spot-item strong { color: #fff; font-weight: 600; }
     .spot-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
     .spot-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.15); }
+    .spot-live-label { margin-right: auto; color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    @media (max-width: 768px) { .spot-live-label { display: none; } }
 
     /* ── Announcement Bar ── */
     .announcement-bar {
@@ -599,6 +601,7 @@
 
   <!-- Live Spot Prices Bar -->
   <div class="spot-bar">
+    <span class="spot-live-label">Live Market Price</span>
     <div class="spot-item">
       <span class="spot-dot gold"></span>
       <span class="spot-label">Gold / oz</span>
@@ -934,7 +937,7 @@
       <h2>Come Visit Us in Wynberg</h2>
       <p>Shop 2B, Maynard Mall, Wynberg, Cape Town</p>
       <div style="display:inline-block; text-align:left; margin:16px auto 24px; border-top:1px solid rgba(255,255,255,0.15); border-bottom:1px solid rgba(255,255,255,0.15); padding:16px 0;">
-        <div style="display:grid; grid-template-columns:auto auto; gap:4px 24px; font-size:0.95rem; line-height:1.9; opacity:0.9;">
+        <div style="display:grid; grid-template-columns:auto auto; gap:4px 24px; font-size:0.95rem; line-height:1.9; color:rgba(255,255,255,0.7);">
           <span>Mon – Fri</span><span>9am – 6pm</span>
           <span>Saturday</span><span>9am – 5pm</span>
           <span>1st &amp; Last Sunday</span><span>Open</span>
