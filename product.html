@@ -19,10 +19,110 @@
 
   <style>
     *, *::before, *::after { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
-    #price-bar { background: #0D1628; color: #fff; font-size: 12px; padding: 7px 0; }
-    #main-nav { position: sticky; top: 0; z-index: 200; background: #fff; box-shadow: 0 2px 12px rgba(27,76,184,0.10); }
-    #mobile-menu { display: none; }
-    #mobile-menu.open { display: flex; }
+    .spot-bar {
+      background: #0F2660;
+      padding: 7px 32px;
+      display: flex; align-items: center; justify-content: flex-end; gap: 28px;
+      font-size: 12px; color: rgba(255,255,255,0.75);
+      flex-wrap: nowrap;
+    }
+    @media (max-width: 640px) {
+      .spot-bar { padding: 7px 12px; gap: 12px; justify-content: center; }
+    }
+    .spot-item { display: flex; align-items: center; gap: 7px; }
+    .spot-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .spot-dot.gold { background: #E8FF3D; }
+    .spot-dot.silver { background: #c0c0c0; }
+    .spot-item strong { color: #fff; font-weight: 600; }
+    .spot-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .spot-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.15); }
+    .spot-live-label { color: rgba(255,255,255,0.45); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    @media (max-width: 640px) { .spot-bar { padding: 7px 12px; gap: 12px; justify-content: center; } }
+    @media (max-width: 768px) { .spot-bar { padding: 7px 16px; justify-content: center; gap: 16px; } }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid rgba(26,58,143,0.1);
+      box-shadow: 0 2px 12px rgba(26,58,143,0.07);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 58px;
+    }
+    .nav-logo img { height: 52px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; padding: 0; margin: 0; }
+    .nav-links a {
+      text-decoration: none; color: #1A1A2E;
+      font-size: 13px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover { color: #1A3A8F; border-bottom-color: #E8FF3D; }
+    .nav-links a.active { color: #1A3A8F; border-bottom-color: #E8FF3D; font-weight: 600; }
+    .nav-actions { display: flex; align-items: center; gap: 20px; }
+    .nav-actions a { color: #1A1A2E; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .nav-actions a:hover { color: #1A3A8F; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: #1A1A2E; }
+    .mobile-nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,38,96,0.55); backdrop-filter: blur(3px);
+      z-index: 300; opacity: 0; transition: opacity 0.3s;
+    }
+    .mobile-nav-overlay.open { display: block; opacity: 1; }
+    .mobile-nav-drawer {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 300px; max-width: 86vw; background: #fff;
+      z-index: 301; transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+      box-shadow: 6px 0 40px rgba(15,38,96,0.18); overflow-y: auto;
+    }
+    .mobile-nav-drawer.open { transform: translateX(0); }
+    .mobile-nav-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; border-bottom: 1px solid rgba(26,58,143,0.08);
+    }
+    .mobile-nav-header img { height: 38px; object-fit: contain; }
+    .mobile-nav-close {
+      background: none; border: none; cursor: pointer; padding: 8px;
+      color: #1A1A2E; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-nav-close:hover { background: #EEF2FB; color: #1A3A8F; }
+    .mobile-nav-links { padding: 8px 0; flex: 1; }
+    .mobile-nav-link {
+      display: block; padding: 15px 24px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #1A1A2E; text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+    .mobile-nav-link:hover { color: #1A3A8F; background: #EEF2FB; border-left-color: #E8FF3D; }
+    .mobile-nav-link.active { color: #1A3A8F; border-left-color: #E8FF3D; font-weight: 700; }
+    .mobile-nav-divider { height: 1px; background: rgba(26,58,143,0.07); margin: 4px 24px; }
+    .mobile-nav-footer {
+      padding: 20px 20px 24px; border-top: 1px solid rgba(26,58,143,0.08);
+      background: #EEF2FB;
+    }
+    .mobile-nav-whatsapp {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: #25D366; color: #fff;
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 14px 20px; border-radius: 8px; text-decoration: none; margin-bottom: 14px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .mobile-nav-whatsapp:hover { background: #1eb854; transform: translateY(-1px); }
+    .mobile-nav-address { font-size: 12px; color: #8C8C8C; text-align: center; letter-spacing: 0.03em; line-height: 1.5; }
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 16px; height: 56px; }
+      .nav-logo img { height: 44px; }
+      .nav-links { display: none; }
+      .nav-actions a { display: none; }
+      .hamburger { display: flex; }
+    }
     html { scroll-behavior: smooth; }
 
     .btn-primary {
@@ -120,52 +220,74 @@
 </head>
 <body class="bg-gray-50">
 
-  <!-- PRICE BAR -->
-  <div id="price-bar">
-    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-4 flex-wrap">
-      <span class="opacity-60 text-xs hidden sm:inline">Live Spot Prices (USD / troy oz)</span>
-      <div class="flex items-center gap-5 flex-wrap">
-        <span id="gold-price" class="font-medium">🥇 Gold: <span class="opacity-60">Loading…</span></span>
-        <span class="opacity-30">|</span>
-        <span id="silver-price" class="font-medium">🥈 Silver: <span class="opacity-60">Loading…</span></span>
-        <span class="opacity-30 hidden sm:inline">|</span>
-        <a href="tel:+27660453163" class="opacity-70 hover:opacity-100 transition-opacity hidden sm:inline" style="color:#fff;text-decoration:none;">📞 +27 66 045 3163</a>
-      </div>
+  <!-- Spot Prices Bar -->
+  <div class="spot-bar">
+    <div class="spot-item">
+      <span class="spot-dot gold"></span>
+      <span class="spot-label">Gold / oz</span>
+      <strong id="gold-price"></strong>
+    </div>
+    <div class="spot-divider"></div>
+    <div class="spot-item">
+      <span class="spot-dot silver"></span>
+      <span class="spot-label">Silver / oz</span>
+      <strong id="silver-price"></strong>
     </div>
   </div>
 
-  <!-- NAV -->
-  <nav id="main-nav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-16">
-        <a href="index.html"><img src="./brand_assets/eTime logo.png" alt="eTime Watch & Jewellery" class="h-10 w-auto"></a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="index.html"   class="text-sm font-medium" style="color:#4b5563;" onmouseover="this.style.color='#1B4CB8'" onmouseout="this.style.color='#4b5563'">Home</a>
-          <a href="about.html"   class="text-sm font-medium" style="color:#4b5563;" onmouseover="this.style.color='#1B4CB8'" onmouseout="this.style.color='#4b5563'">About Us</a>
-          <a href="index.html#services" class="text-sm font-medium" style="color:#4b5563;" onmouseover="this.style.color='#1B4CB8'" onmouseout="this.style.color='#4b5563'">Services</a>
-          <a href="catalog.html" class="text-sm font-medium" style="color:#4b5563;" onmouseover="this.style.color='#1B4CB8'" onmouseout="this.style.color='#4b5563'">Catalogue</a>
-          <a href="index.html#contact" class="text-sm font-medium" style="color:#4b5563;" onmouseover="this.style.color='#1B4CB8'" onmouseout="this.style.color='#4b5563'">Contact</a>
-        </div>
-        <div class="hidden md:flex">
-          <a href="https://wa.me/27660453163" target="_blank" rel="noopener" class="btn-primary" style="padding:10px 20px;font-size:13px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp Us
-          </a>
-        </div>
-        <button id="nav-toggle" class="md:hidden p-2 rounded-lg" style="color:#1B4CB8;">
-          <svg id="icon-open"  width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg id="icon-close" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="./brand_asset/e_Time_E transparent.png" alt="eTime Watch &amp; Jewellery" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="repairs.html">Repairs</a></li>
+        <li><a href="shop.html" class="active">Shop</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://wa.me/27660453163" target="_blank" aria-label="WhatsApp Us" style="gap:6px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+          <span style="font-size:13px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;">WhatsApp</span>
+        </a>
+        <button class="hamburger" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
     </div>
-    <div id="mobile-menu" class="md:hidden flex-col px-4 pb-4 gap-1 bg-white border-t border-gray-100">
-      <a href="index.html"   class="block py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700">Home</a>
-      <a href="about.html"   class="block py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700">About Us</a>
-      <a href="index.html#services" class="block py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700">Services</a>
-      <a href="catalog.html" class="block py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700">Catalogue</a>
-      <a href="index.html#contact" class="block py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700">Contact</a>
-    </div>
   </nav>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-header">
+      <img src="./brand_asset/e_Time_E transparent.png" alt="eTime Watch &amp; Jewellery" />
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <div class="mobile-nav-divider"></div>
+      <a href="about.html" class="mobile-nav-link">About</a>
+      <div class="mobile-nav-divider"></div>
+      <a href="repairs.html" class="mobile-nav-link">Repairs</a>
+      <div class="mobile-nav-divider"></div>
+      <a href="shop.html" class="mobile-nav-link active">Shop</a>
+      <div class="mobile-nav-divider"></div>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </nav>
+    <div class="mobile-nav-footer">
+      <a href="https://wa.me/27660453163" target="_blank" class="mobile-nav-whatsapp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+        WhatsApp Us
+      </a>
+      <p class="mobile-nav-address">Shop 2B, Maynard Mall,<br />Wynberg, Cape Town</p>
+    </div>
+  </div>
 
   <!-- BREADCRUMB -->
   <div class="bg-white border-b border-gray-100">
@@ -391,15 +513,26 @@
 
   <script src="./products.js"></script>
   <script>
-    // ── Nav toggle ──────────────────────────────────────────────────────────
-    const toggle = document.getElementById('nav-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const iconOpen = document.getElementById('icon-open');
-    const iconClose = document.getElementById('icon-close');
-    toggle.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      iconOpen.style.display  = isOpen ? 'none'  : 'block';
-      iconClose.style.display = isOpen ? 'block' : 'none';
+    // ── Mobile nav drawer ───────────────────────────────────────────────────
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    function openMobileNav() {
+      mobileNavDrawer.classList.add('open');
+      mobileNavOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+      mobileNavDrawer.classList.remove('open');
+      mobileNavOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMobileNav);
+    mobileNavClose.addEventListener('click', closeMobileNav);
+    mobileNavOverlay.addEventListener('click', closeMobileNav);
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', closeMobileNav);
     });
 
     // ── Load product ────────────────────────────────────────────────────────
@@ -496,23 +629,27 @@
     });
 
     // ── Live prices ─────────────────────────────────────────────────────────
-    async function updatePrices() {
+    async function fetchSpotPrices() {
       try {
-        const res = await fetch('https://data-asg.goldprice.org/dbXRates/USD');
-        const data = await res.json();
-        const item = data.items[0];
-        const fmt = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const pct = (n) => (n >= 0 ? '▲ +' : '▼ ') + Math.abs(n).toFixed(2) + '%';
-        const col = (n) => n >= 0 ? '#4ade80' : '#f87171';
-        document.getElementById('gold-price').innerHTML   = `🥇 Gold: <strong>${fmt(item.xauPrice)}</strong> <span style="color:${col(item.pcXau)};font-size:11px;">${pct(item.pcXau)}</span>`;
-        document.getElementById('silver-price').innerHTML = `🥈 Silver: <strong>${fmt(item.xagPrice)}</strong> <span style="color:${col(item.pcXag)};font-size:11px;">${pct(item.pcXag)}</span>`;
+        const [goldRes, silverRes] = await Promise.all([
+          fetch('https://api.coinbase.com/v2/prices/XAU-USD/spot'),
+          fetch('https://api.coinbase.com/v2/prices/XAG-USD/spot')
+        ]);
+        if (!goldRes.ok || !silverRes.ok) throw new Error('API error');
+        const goldData = await goldRes.json();
+        const silverData = await silverRes.json();
+        const goldUSD = parseFloat(goldData.data.amount);
+        const silverUSD = parseFloat(silverData.data.amount);
+        document.getElementById('gold-price').textContent =
+          '$' + goldUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+        document.getElementById('silver-price').textContent =
+          '$' + silverUSD.toFixed(2) + ' USD';
       } catch (e) {
-        document.getElementById('gold-price').innerHTML   = '🥇 Gold: <span style="opacity:0.6;">Live price</span>';
-        document.getElementById('silver-price').innerHTML = '🥈 Silver: <span style="opacity:0.6;">Live price</span>';
+        document.getElementById('gold-price').textContent = 'Price on request';
+        document.getElementById('silver-price').textContent = 'Price on request';
       }
     }
-    updatePrices();
-    setInterval(updatePrices, 60000);
+    fetchSpotPrices();
   </script>
 </body>
 </html>
